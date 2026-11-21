@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+<div class="eyebrow">STUDENT SERVICES</div>
+<h1>My enrollments</h1>
+<p class="subtitle">Choose an open course and reserve a seat.</p>
+<% if (result.error) { %>
+  <div class="alert danger"><%= result.error %></div>
+<% } else { %>
+  <section class="panel section-panel"><h2>Enroll in a course</h2>
+    <div class="course-grid">
+      <% result.data.availableCourses.forEach(course => { %>
+        <div class="course-card">
+          <div class="course-code"><%= course.code %></div>
+          <h3><%= course.title %></h3>
+          <div class="course-meta"><%= course.section %> · <%= course.term %></div>
+          <div class="course-bottom"><span class="seats"><%= course.seatsLeft %> of <%= course.capacity %> seats left</span>
+            <form method="post" action="/enrollments"><input type="hidden" name="code" value="<%= course.code %>"><button class="primary small" type="submit" <%= !course.open || result.data.enrollments.some(item => item.code === course.code) ? 'disabled' : '' %>><%= result.data.enrollments.some(item => item.code === course.code) ? 'Enrolled' : course.open ? 'Enroll' : 'Full' %></button></form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+  <section class="section-panel"><h2>Currently enrolled <span class="count"><%= result.data.enrollments.length %></span></h2>
+    <% if (result.data.enrollments.length === 0) { %><p class="empty">You have no enrollments yet. Choose a course above to get started.</p><% } else { %>
+      <div class="table-wrap"><table><thead><tr><th>Course</th><th>Section</th><th>Term</th><th>Enrolled at</th></tr></thead><tbody>
+        <% result.data.enrollments.forEach(item => { %><tr><td><strong><%= item.code %></strong><span class="cell-secondary"><%= item.title %></span></td><td><%= item.section %></td><td><%= item.term %></td><td><%= item.enrolledAt.slice(0, 10) %></td></tr><% }) %>
+      </tbody></table></div>
+    <% } %>
+  </section>
+<% } %>
+<%- include('partials/footer') %>

@@ -1,0 +1,12 @@
+<%- include('partials/header') %>
+<div class="eyebrow">ACADEMIC RECORDS</div>
+<h1>Previous grades</h1>
+<p class="subtitle">Your recorded grades from completed and previous terms.</p>
+<% if (result.error) { %><div class="alert danger"><%= result.error %></div><% } else if (result.data.grades.length === 0) { %>
+  <div class="panel empty">You have no recorded grades yet.</div>
+<% } else { %>
+  <div class="table-wrap"><table><thead><tr><th>Course</th><th>Term</th><th>Grade</th><th>Last updated</th></tr></thead><tbody>
+    <% result.data.grades.forEach(item => { %><tr><td><strong><%= item.courseCode %></strong><span class="cell-secondary"><%= item.courseTitle %></span></td><td><%= item.term %></td><td><span class="grade"><%= item.grade %></span></td><td><%= item.updatedAt.slice(0, 10) %></td></tr><% }) %>
+  </tbody></table></div>
+<% } %>
+<%- include('partials/footer') %>

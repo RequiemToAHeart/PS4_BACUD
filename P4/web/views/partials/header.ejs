@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> - Online Enrollment System</title>
+  <link rel="stylesheet" href="/minimal.css">
+</head>
+<body>
+  <main class="page">
+    <header class="site-header">
+      <h1>Online Enrollment System</h1>
+      <p>Student enrollment and grade management</p>
+      <% if (user) { %>
+        <nav>
+          <a href="/dashboard">Dashboard</a>
+          <a href="/courses">Available courses</a>
+          <% if (user.role === 'student') { %>
+            <a href="/enrollments">My enrollments</a>
+            <a href="/grades">Previous grades</a>
+          <% } else { %>
+            <a href="/faculty">Upload grades</a>
+          <% } %>
+          <form method="post" action="/logout"><button type="submit" class="text-button">Log out</button></form>
+        </nav>
+        <div class="account">Signed in as <strong><%= user.name %></strong> (<%= user.role %>)</div>
+      <% } %>
+    </header>
+    <div class="content">
+      <% if (notice) { %><p class="message success"><%= notice %></p><% } %>
+      <% if (errorMessage) { %><p class="message danger"><%= errorMessage %></p><% } %>

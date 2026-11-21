@@ -1,0 +1,20 @@
+<%- include('partials/header') %>
+<div class="login-wrap">
+  <div class="eyebrow">WELCOME BACK</div>
+  <h1>Sign in to your portal.</h1>
+  <p class="subtitle">View your courses, manage enrollments, and access academic records.</p>
+  <form class="login-form panel" method="post" action="/login">
+    <label for="username">Username</label>
+    <input id="username" name="username" autocomplete="username" placeholder="Enter your username" required autofocus>
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+    <button class="primary full" type="submit">Sign in</button>
+  </form>
+  <div class="demo-box">
+    <strong>Demo accounts</strong>
+    <p>Student: <code>student1</code>, <code>student2</code>, or <code>student3</code></p>
+    <p>Faculty: <code>prof1</code></p>
+    <p>Password for all accounts: <code>hotdog1</code></p>
+  </div>
+</div>
+<%- include('partials/footer') %>

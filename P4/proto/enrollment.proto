@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package enrollment;
+
+service AuthService {
+  rpc Login (LoginRequest) returns (LoginReply);
+}
+
+service CatalogService {
+  rpc ListCourses (Empty) returns (CourseList);
+}
+
+service EnrollmentService {
+  rpc ListMine (Empty) returns (EnrollmentList);
+  rpc Enroll (EnrollRequest) returns (ActionReply);
+}
+
+service GradeService {
+  rpc ListMine (Empty) returns (GradeList);
+  rpc ListStudents (Empty) returns (StudentList);
+  rpc UploadGrade (GradeRequest) returns (ActionReply);
+}
+
+message Empty {}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginReply {
+  string token = 1;
+  string user_id = 2;
+  string name = 3;
+  string role = 4;
+}
+
+message Course {
+  string code = 1;
+  string title = 2;
+  string section = 3;
+  string faculty = 4;
+  int32 units = 5;
+  string term = 6;
+  bool open = 7;
+  int32 capacity = 8;
+  int32 seats_left = 9;
+}
+
+message CourseList {
+  repeated Course courses = 1;
+}
+
+message EnrollRequest {
+  string code = 1;
+}
+
+message ActionReply {
+  string message = 1;
+}
+
+message Enrollment {
+  string code = 1;
+  string title = 2;
+  string section = 3;
+  string term = 4;
+  string enrolled_at = 5;
+}
+
+message EnrollmentList {
+  repeated Enrollment enrollments = 1;
+  repeated Course available_courses = 2;
+}
+
+message Grade {
+  string student_id = 1;
+  string course_code = 2;
+  string course_title = 3;
+  string term = 4;
+  double grade = 5;
+  string updated_at = 6;
+}
+
+message GradeList {
+  repeated Grade grades = 1;
+}
+
+message Student {
+  string user_id = 1;
+  string name = 2;
+}
+
+message StudentList {
+  repeated Student students = 1;
+  repeated Course courses = 2;
+}
+
+message GradeRequest {
+  string student_id = 1;
+  string course_code = 2;
+  string term = 3;
+  double grade = 4;
+}

@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+<div class="eyebrow">FACULTY TOOLS</div>
+<h1>Upload student grades</h1>
+<p class="subtitle">Save a grade or update an existing student record for the same course and term.</p>
+<% if (result.error) { %><div class="alert danger"><%= result.error %></div><% } else { %>
+  <form class="panel faculty-form" method="post" action="/faculty">
+    <div class="form-grid">
+      <div><label for="studentId">Student</label><select id="studentId" name="studentId" required><option value="">Select a student</option><% result.data.students.forEach(student => { %><option value="<%= student.userId %>"><%= student.name %> (<%= student.userId %>)</option><% }) %></select></div>
+      <div><label for="courseCode">Course</label><select id="courseCode" name="courseCode" required><option value="">Select a course</option><% result.data.courses.forEach(course => { %><option value="<%= course.code %>"><%= course.code %> · <%= course.title %></option><% }) %></select></div>
+      <div><label for="term">Term</label><input id="term" name="term" value="AY 2026-2027 T1" maxlength="50" required></div>
+      <div><label for="grade">Numeric grade (0–100)</label><input id="grade" name="grade" type="number" min="0" max="100" step="0.01" placeholder="e.g. 94.5" required></div>
+    </div>
+    <button class="primary" type="submit">Save grade</button>
+  </form>
+  <p class="hint">A student can sign in to see newly uploaded grades immediately.</p>
+<% } %>
+<%- include('partials/footer') %>

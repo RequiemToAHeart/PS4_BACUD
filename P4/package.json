@@ -1,0 +1,26 @@
+{
+  "name": "distributed-enrollment-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Distributed MVC enrollment system using Node.js, SQLite and gRPC",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.js",
+    "web": "node web/app.js",
+    "auth": "node services/auth.js",
+    "catalog": "node services/catalog.js",
+    "enrollment": "node services/enrollment.js",
+    "grades": "node services/grades.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.13.4",
+    "@grpc/proto-loader": "^0.7.15",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

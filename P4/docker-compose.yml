@@ -1,0 +1,75 @@
+x-common: &common
+  build: .
+  restart: unless-stopped
+  environment: &env
+    JWT_SECRET: ${JWT_SECRET:-development-only-change-this-long-secret-now}
+    DATA_DIR: /data
+
+services:
+  auth:
+    <<: *common
+    command: node services/auth.js
+    environment:
+      <<: *env
+      AUTH_PORT: 50051
+    ports:
+      - "50051:50051"
+    volumes:
+      - auth_data:/data
+
+  catalog:
+    <<: *common
+    command: node services/catalog.js
+    environment:
+      <<: *env
+      CATALOG_PORT: 50052
+    ports:
+      - "50052:50052"
+    volumes:
+      - catalog_data:/data
+
+  enrollment:
+    <<: *common
+    command: node services/enrollment.js
+    environment:
+      <<: *env
+      ENROLLMENT_PORT: 50053
+    ports:
+      - "50053:50053"
+    volumes:
+      - enrollment_data:/data
+
+  grades:
+    <<: *common
+    command: node services/grades.js
+    environment:
+      <<: *env
+      GRADES_PORT: 50054
+    ports:
+      - "50054:50054"
+    volumes:
+      - grades_data:/data
+
+  web:
+    <<: *common
+    command: node web/app.js
+    environment:
+      <<: *env
+      WEB_PORT: 3000
+      AUTH_ADDRESS: auth:50051
+      CATALOG_ADDRESS: catalog:50052
+      ENROLLMENT_ADDRESS: enrollment:50053
+      GRADES_ADDRESS: grades:50054
+    ports:
+      - "3000:3000"
+    depends_on:
+      - auth
+      - catalog
+      - enrollment
+      - grades
+
+volumes:
+  auth_data:
+  catalog_data:
+  enrollment_data:
+  grades_data:

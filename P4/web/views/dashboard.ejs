@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+<h2>Dashboard</h2>
+<p>Welcome, <%= user.name %>.</p>
+<div class="summary">
+  <span><strong><%= courseStatus.error ? '—' : courseStatus.data.courses.length %></strong> Available courses <small><%= courseStatus.error ? '(offline)' : '' %></small></span>
+  <% if (user.role === 'student') { %>
+    <span><strong><%= enrollmentStatus.error ? '—' : enrollmentStatus.data.enrollments.length %></strong> Enrollments <small><%= enrollmentStatus.error ? '(offline)' : '' %></small></span>
+    <span><strong><%= gradeStatus.error ? '—' : gradeStatus.data.grades.length %></strong> Recorded grades <small><%= gradeStatus.error ? '(offline)' : '' %></small></span>
+  <% } else { %>
+    <span><strong><%= gradeStatus.error ? '—' : gradeStatus.data.students.length %></strong> Students <small><%= gradeStatus.error ? '(offline)' : '' %></small></span>
+  <% } %>
+</div>
+<h3>Services</h3>
+<p><a href="/courses">View available courses</a></p>
+<% if (user.role === 'student') { %>
+  <p><a href="/enrollments">Enroll in a course</a></p>
+  <p><a href="/grades">View previous grades</a></p>
+<% } else { %>
+  <p><a href="/faculty">Upload student grades</a></p>
+<% } %>
+<%- include('partials/footer') %>
